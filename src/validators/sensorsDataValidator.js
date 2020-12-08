@@ -10,6 +10,7 @@ const schema = Joi.object({
     brightnessLevel: Joi.number()
                         .max(100)
                         .min(0)
+                        .required()
 })
 
 module.exports = schema

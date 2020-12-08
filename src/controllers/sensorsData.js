@@ -8,13 +8,20 @@ async function getSensorsData(req, res, next) {
 }
 
 async function postSensorsData(req, res, next) {
-    const data = req.body
-    const error = schema.validate(data).error
-    if (error) {
-        next(new Error(`Invalid request: ${error.message}`))
+    try {
+        const data = req.body
+        const error = schema.validate(data).error
+        if (error) {
+            const err = new Error(`Invalid request: ${error.message}`)
+            err.status = 400
+            throw err
+        }
+        const result = await service.postSensorsData(data)
+        res.status(201).json(result)
     }
-    const result = await service.postSensorsData(data)
-    res.status(201).json(result)
+    catch (err) {
+        next(err)
+    }
 }
 
 module.exports = {
