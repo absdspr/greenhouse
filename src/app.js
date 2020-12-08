@@ -4,7 +4,8 @@ const morgan = require('morgan')
 const indexRouter = require('./routes/index')
 
 app.use(express.json())
-app.use(indexRouter)
 app.use(morgan('dev'))
+
+app.use(indexRouter)
 
 module.exports = app

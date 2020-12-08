@@ -1,9 +1,13 @@
+const SesnorsData = require('../schemas/sensorsData')
 
-
-function getSensorsData() {
-    return ['boiler plate data']
+async function getSensorsData() {
+    return await SesnorsData.find({})
 }
-
+async function postSensorsData(sensorsData) {
+    const result = await SesnorsData.create(sensorsData)
+    return result
+}
 module.exports = {
-    getSensorsData: getSensorsData
+    getSensorsData,
+    postSensorsData
 }
