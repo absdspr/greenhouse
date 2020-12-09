@@ -1,10 +1,10 @@
-const SesnorsData = require('../schemas/sensorsData')
+const SensorsData = require('../schemas/sensorsData')
 
 async function getSensorsData() {
-    return await SesnorsData.find({})
+    return await SensorsData.find({})
 }
 async function postSensorsData(sensorsData) {
-    const result = await SesnorsData.create(sensorsData)
+    const result = await SensorsData.create(sensorsData)
     return result
 }
 module.exports = {
