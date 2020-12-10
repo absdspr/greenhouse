@@ -1,17 +1,15 @@
 const mqtt = require('mqtt')
 const schema = require('../validators/sensorsDataValidator')
 const service = require('../services/sensorsData')
-const { type } = require('../validators/sensorsDataValidator')
 
 const brokerUrl = process.env.BROKER_URL
 const client = mqtt.connect('mqtt://test.mosquitto.org')
 
 
 function config() {
-    const sensors_data_topic = process.env.DATA_TOPIC
     client.on('connect', () => {
         console.log(`Connected to broker ${brokerUrl}`)
-        client.subscribe('test/topic/lolololo', (err, granted) => {
+        client.subscribe('greenhouse/device/data', (err, granted) => {
             if (err) {
                 console.log('Could not subscribe to topic')
                 process.exit(1)
@@ -21,7 +19,6 @@ function config() {
     })
     client.on('message', (topic, message) => {
         const data = JSON.parse(message.toString())
-        console.log(typeof data)
         const error = schema.validate(data).error
         if (error) {
             console.log(`Incorrect data format: ${data}`)
@@ -31,6 +28,10 @@ function config() {
     })
 }
 
+function publish(command) {
+    client.publish('greenhouse/device/controll/pannel/', JSON.stringify(command))
+}
 module.exports = {
-    config
+    config,
+    publish
 }
