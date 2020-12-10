@@ -15,6 +15,7 @@ app.use(function(req, res, next) {
 });
   
 app.use(function(err, req, res, next) {
-    res.status(err.status || 500).json({"message: ": err.message})
+    const message = process.env.NODE_ENV === 'development' ? err.message : ''
+    res.status(err.status || 500).json({"message: ": message})
 });
 module.exports = app
